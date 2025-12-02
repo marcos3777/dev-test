@@ -1,66 +1,91 @@
-<!-- TODO: Melhorar o design desta tela -->
-<div style="max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #ccc;">
-  <h2 style="text-align: center;">Cadastro</h2>
-
-  <form (ngSubmit)="onSubmit()">
-    <div style="margin-bottom: 15px;">
-      <label for="email" style="display: block; margin-bottom: 5px;">Email:</label>
-      <input
-        type="email"
-        id="email"
-        [(ngModel)]="email"
-        name="email"
-        style="width: 100%; padding: 8px; box-sizing: border-box;"
-        placeholder="Digite seu email"
-        required
-      />
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <div class="banner-wrapper">
+        <img src="banner.png" alt="Banner" class="banner-image" />
+      </div>
+      <h2 class="register-title">Criar nova conta</h2>
+      <p class="register-subtitle">Preencha os dados para começar</p>
     </div>
 
-    <div style="margin-bottom: 15px;">
-      <label for="password" style="display: block; margin-bottom: 5px;">Senha:</label>
-      <input
-        type="password"
-        id="password"
-        [(ngModel)]="password"
-        name="password"
-        style="width: 100%; padding: 8px; box-sizing: border-box;"
-        placeholder="Digite sua senha (mínimo 6 caracteres)"
-        required
-      />
+    <form (ngSubmit)="onSubmit()" class="register-form">
+      <div class="form-group">
+        <label for="email" class="form-label">
+          <span class="label-icon">📧</span>
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          class="form-input"
+          placeholder="seu@email.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">
+          <span class="label-icon">🔒</span>
+          Senha
+        </label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          class="form-input"
+          placeholder="Mínimo 6 caracteres"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword" class="form-label">
+          <span class="label-icon">✅</span>
+          Confirmar Senha
+        </label>
+        <input
+          type="password"
+          id="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          class="form-input"
+          placeholder="Confirme sua senha"
+          required
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <span class="error-icon">⚠️</span>
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="success-message">
+        <span class="success-icon">✓</span>
+        {{ successMessage }}
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="isLoading"
+        class="submit-button"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Cadastrar</span>
+        <span *ngIf="isLoading" class="loading-text">
+          <span class="spinner"></span>
+          Cadastrando...
+        </span>
+      </button>
+    </form>
+
+    <div class="register-footer">
+      <p class="footer-text">
+        Já tem uma conta?
+        <a routerLink="/login" class="footer-link">Faça login</a>
+      </p>
     </div>
-
-    <div style="margin-bottom: 15px;">
-      <label for="confirmPassword" style="display: block; margin-bottom: 5px;">Confirmar Senha:</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        [(ngModel)]="confirmPassword"
-        name="confirmPassword"
-        style="width: 100%; padding: 8px; box-sizing: border-box;"
-        placeholder="Confirme sua senha"
-        required
-      />
-    </div>
-
-    <div *ngIf="errorMessage" style="color: red; margin-bottom: 15px;">
-      {{ errorMessage }}
-    </div>
-
-    <div *ngIf="successMessage" style="color: green; margin-bottom: 15px;">
-      {{ successMessage }}
-    </div>
-
-    <button
-      type="submit"
-      [disabled]="isLoading"
-      style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer;"
-    >
-      {{ isLoading ? 'Cadastrando...' : 'Cadastrar' }}
-    </button>
-  </form>
-
-  <p style="text-align: center; margin-top: 20px;">
-    Já tem uma conta?
-    <a routerLink="/login" style="color: #007bff;">Faça login</a>
-  </p>
+  </div>
 </div>
