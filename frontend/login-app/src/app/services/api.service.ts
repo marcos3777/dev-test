@@ -10,19 +10,14 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  // TODO: Implementar chamada para login
   login(email: string, password: string): Observable<any> {
-    // TODO: O candidato deve implementar esta chamada
-    throw new Error('TODO: Implementar chamada de login');
+    return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
 
-  // TODO: Implementar chamada para cadastro
   register(email: string, password: string): Observable<any> {
-    // TODO: O candidato deve implementar esta chamada
-    throw new Error('TODO: Implementar chamada de cadastro');
+    return this.http.post(`${this.apiUrl}/register`, { email, password });
   }
 
-  // Exemplo de chamada implementada - verificar se email existe
   checkEmailExists(email: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/check-email`, { email });
   }
