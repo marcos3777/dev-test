@@ -1,0 +1,66 @@
+<!-- TODO: Melhorar o design desta tela -->
+<div style="max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #ccc;">
+  <h2 style="text-align: center;">Cadastro</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 15px;">
+      <label for="email" style="display: block; margin-bottom: 5px;">Email:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        style="width: 100%; padding: 8px; box-sizing: border-box;"
+        placeholder="Digite seu email"
+        required
+      />
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label for="password" style="display: block; margin-bottom: 5px;">Senha:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        style="width: 100%; padding: 8px; box-sizing: border-box;"
+        placeholder="Digite sua senha (mínimo 6 caracteres)"
+        required
+      />
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label for="confirmPassword" style="display: block; margin-bottom: 5px;">Confirmar Senha:</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        style="width: 100%; padding: 8px; box-sizing: border-box;"
+        placeholder="Confirme sua senha"
+        required
+      />
+    </div>
+
+    <div *ngIf="errorMessage" style="color: red; margin-bottom: 15px;">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" style="color: green; margin-bottom: 15px;">
+      {{ successMessage }}
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="isLoading"
+      style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer;"
+    >
+      {{ isLoading ? 'Cadastrando...' : 'Cadastrar' }}
+    </button>
+  </form>
+
+  <p style="text-align: center; margin-top: 20px;">
+    Já tem uma conta?
+    <a routerLink="/login" style="color: #007bff;">Faça login</a>
+  </p>
+</div>
