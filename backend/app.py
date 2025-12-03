@@ -30,31 +30,35 @@ def check_email():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# TODO: Implementar rota de login
 @app.route('/api/login', methods=['POST'])
 def login():
-    """
-    TODO: O candidato deve implementar esta rota.
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
 
-    Requisitos:
-    1. Receber email e password no body da requisição
-    2. Validar se os campos foram enviados
-    3. Verificar se o email existe usando db.get_user_by_email()
-    4. Verificar se a senha está correta usando check_password_hash()
-    5. Retornar sucesso com informações do usuário ou erro apropriado
+        if not email or not password:
+            return jsonify({'error': 'Email e senha são obrigatórios'}), 400
 
-    Exemplo de resposta de sucesso:
-    {
-        "success": true,
-        "user": {
-            "id": "uuid",
-            "email": "user@example.com"
-        },
-        "token": "token_simulado"
-    }
-    """
-    # TODO: Implementar lógica de login
-    return jsonify({'error': 'TODO: Implementar rota de login'}), 501
+        user = db.get_user_by_email(email)
+        if not user:
+            return jsonify({'error': 'Credenciais inválidas'}), 401
+
+        if not check_password_hash(user['password'], password):
+            return jsonify({'error': 'Credenciais inválidas'}), 401
+
+
+        return jsonify({
+            'success': True,
+            'user': {
+                'id': user['id'],
+                'email': user['email']
+            },
+            'token': secrets.token_hex(32)
+        }), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # TODO: Implementar rota de cadastro
 @app.route('/api/register', methods=['POST'])
