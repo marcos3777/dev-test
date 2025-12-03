@@ -3,6 +3,7 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from database_repository import DatabaseRepository
 import secrets
+import re
 
 app = Flask(__name__)
 CORS(app)
@@ -60,34 +61,39 @@ def login():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# TODO: Implementar rota de cadastro
 @app.route('/api/register', methods=['POST'])
 def register():
-    """
-    TODO: O candidato deve implementar esta rota.
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
 
-    Requisitos:
-    1. Receber email e password no body da requisição
-    2. Validar se os campos foram enviados
-    3. Validar formato do email
-    4. Validar senha (mínimo 6 caracteres)
-    5. Verificar se o email já existe usando db.email_exists()
-    6. Criar hash da senha usando generate_password_hash()
-    7. Salvar usuário usando db.create_user()
-    8. Retornar sucesso ou erro apropriado
+        if not email or not password:
+            return jsonify({'error': 'Email e senha são obrigatórios'}), 400
 
-    Exemplo de resposta de sucesso:
-    {
-        "success": true,
-        "message": "Usuário cadastrado com sucesso",
-        "user": {
-            "id": "uuid",
-            "email": "user@example.com"
-        }
-    }
-    """
-    # TODO: Implementar lógica de cadastro
-    return jsonify({'error': 'TODO: Implementar rota de cadastro'}), 501
+        if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', email):
+            return jsonify({'error': 'Formato de email inválido'}), 400
+
+        if len(password) < 6:
+            return jsonify({'error': 'A senha deve ter no mínimo 6 caracteres'}), 400
+
+        if db.email_exists(email):
+            return jsonify({'error': 'Este email já está cadastrado'}), 409
+
+        hashed_password = generate_password_hash(password)
+        user = db.create_user(email, hashed_password)
+
+        return jsonify({
+            'success': True,
+            'message': 'Usuário cadastrado com sucesso',
+            'user': {
+                'id': user['id'],
+                'email': user['email']
+            }
+        }), 201
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # Rota de teste
 @app.route('/api/health', methods=['GET'])
