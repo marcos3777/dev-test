@@ -1,6 +1,6 @@
 <div align="center">
 
-# Findor - Sistema de Autenticação
+# Findor - Sistema de Autenticação (desafio técnico)
 
 <img src="assets/banner.png" alt="Banner" width="280">
 
