@@ -38,59 +38,34 @@ class DatabaseRepository:
         """
         return email.lower() in self.users
 
-    # TODO: Implementar método para buscar usuário por email
     def get_user_by_email(self, email: str) -> Optional[dict]:
-        """
-        TODO: O candidato deve implementar este método.
-
-        Busca um usuário pelo email.
-
-        Args:
-            email: O email do usuário
-
-        Returns:
-            Dicionário com os dados do usuário se encontrado, None caso contrário
-
-        Exemplo de retorno:
-        {
-            "id": "uuid",
-            "email": "user@example.com",
-            "password_hash": "hash_da_senha",
-            "created_at": "2024-01-01T00:00:00"
+        user = self.users.get(email.lower())
+        if not user:
+            return None
+        return {
+            'id': user['id'],
+            'email': user['email'],
+            'password': user['password_hash'],
+            'created_at': user['created_at']
         }
-        """
-        # TODO: Implementar busca de usuário por email
-        pass
 
-    # TODO: Implementar método para criar novo usuário
     def create_user(self, email: str, password_hash: str) -> dict:
-        """
-        TODO: O candidato deve implementar este método.
+        user_id = str(uuid.uuid4())
+        email_lower = email.lower()
+        created_at = datetime.now().isoformat()
 
-        Cria um novo usuário no sistema.
-
-        Args:
-            email: Email do usuário
-            password_hash: Hash da senha do usuário
-
-        Returns:
-            Dicionário com os dados do usuário criado
-
-        Requisitos:
-        1. Gerar um ID único para o usuário (use uuid.uuid4())
-        2. Armazenar o email em lowercase
-        3. Adicionar timestamp de criação
-        4. Retornar os dados do usuário criado (sem o password_hash)
-
-        Exemplo de retorno:
-        {
-            "id": "uuid",
-            "email": "user@example.com",
-            "created_at": "2024-01-01T00:00:00"
+        self.users[email_lower] = {
+            'id': user_id,
+            'email': email_lower,
+            'password_hash': password_hash,
+            'created_at': created_at
         }
-        """
-        # TODO: Implementar criação de usuário
-        pass
+
+        return {
+            'id': user_id,
+            'email': email_lower,
+            'created_at': created_at
+        }
 
     def get_all_users(self) -> List[dict]:
         """
