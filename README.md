@@ -1,8 +1,12 @@
-# Findor - Sistema de Autenticação (projeto para desafio técnico)
+<div align="center">
 
-![Banner](assets/banner.png)
+# Findor - Sistema de Autenticação
+
+<img src="assets/banner.png" alt="Banner" width="280">
 
 Sistema de login e cadastro com Angular + Flask.
+
+</div>
 
 ## Arquitetura
 
